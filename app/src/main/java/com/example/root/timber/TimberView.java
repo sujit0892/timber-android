@@ -28,6 +28,7 @@ public class TimberView extends SurfaceView implements  Runnable{
     int X,Y;
     Cloud cloud1,cloud2,cloud3;
     int Y1,Y2,Y3,Y4;
+    sound sound;
     boolean gameEnded=false;boolean startgame = false;
     public TimberView(Context context, int x, int y) {
         super(context);
@@ -38,7 +39,7 @@ public class TimberView extends SurfaceView implements  Runnable{
         paint.setColor(Color.argb(255,255,255,255));
         ourHolder = getHolder();
         startGame();
-
+     sound = new sound(context);
 
     }
 
@@ -68,15 +69,14 @@ public class TimberView extends SurfaceView implements  Runnable{
         branch2.update();
         branch3.update();
         branch4.update();
-
+        sound.playChop();
         if(branch1.getY()==Y-Y/3&&bee.getPosition()==branch1.getPosition()%2){
 
             gameEnded = true;
         }
-        Log.e("bee", String.valueOf(bee.getPosition()));
-        Log.e("branch", String.valueOf(branch2.getPosition()%2));
+
         if(branch2.getY()==Y-Y/3 && bee.getPosition()==branch2.getPosition()%2)
-        {   Log.e("msg","break");
+        {
             gameEnded=true;
         }
         if(branch3.getY()==Y-Y/3&&bee.getPosition()==branch3.getPosition()%2){
@@ -128,6 +128,7 @@ public class TimberView extends SurfaceView implements  Runnable{
                 paint.setTextAlign(Paint.Align.CENTER);
                 canvas.drawText("Start", X/2, 100, paint);
                 canvas.drawText("Tap to play!", X/2, 350, paint);
+                sound.playDead();
             }
             ourHolder.unlockCanvasAndPost(canvas);
 

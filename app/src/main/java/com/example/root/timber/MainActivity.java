@@ -3,6 +3,7 @@ package com.example.root.timber;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
+import android.media.AudioManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
@@ -19,6 +20,7 @@ public class MainActivity extends Activity {
         display.getSize(size);
         timberView= new TimberView(this,size.x,size.y);
         setContentView(timberView);
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
     }
 
