@@ -40,12 +40,12 @@ public class branch {
         this.Y=Y;
         maxY = y - y/3+tree.getPlayer().getHeight();
         this.context=context;
-        position=1;
+        position=0;
 
     }
 
     public void setX(){
-        position=generator.nextInt(10);
+        position=generator.nextInt(30);
         if(position%2==1){
             X=X_RIGHT;
 

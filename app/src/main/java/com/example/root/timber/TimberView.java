@@ -31,7 +31,7 @@ public class TimberView extends SurfaceView implements  Runnable{
     boolean gameEnded=false;boolean startgame = false;
     public TimberView(Context context, int x, int y) {
         super(context);
-       this.context =context;
+        this.context =context;
         X=x;
         Y=y;
         paint = new Paint();
@@ -44,10 +44,12 @@ public class TimberView extends SurfaceView implements  Runnable{
 
     @Override
     public void run() {
-        while (true) {
-
-           update();
+        while (playing) {
             draw();
+            if(!gameEnded) {
+                update();
+            }
+
             control();
         }
 
@@ -58,20 +60,23 @@ public class TimberView extends SurfaceView implements  Runnable{
 
     private void update() {
 
-            cloud1.update();
-            cloud2.update();
-            cloud3.update();
-            bee.update();
-            branch1.update();
-            branch2.update();
-            branch3.update();
-            branch4.update();
+        cloud1.update();
+        cloud2.update();
+        cloud3.update();
+        bee.update();
+        branch1.update();
+        branch2.update();
+        branch3.update();
+        branch4.update();
+
         if(branch1.getY()==Y-Y/3&&bee.getPosition()==branch1.getPosition()%2){
 
             gameEnded = true;
         }
-        if(branch2.getY()==Y-Y/3&&bee.getPosition()==branch2.getPosition()%2)
-        {
+        Log.e("bee", String.valueOf(bee.getPosition()));
+        Log.e("branch", String.valueOf(branch2.getPosition()%2));
+        if(branch2.getY()==Y-Y/3 && bee.getPosition()==branch2.getPosition()%2)
+        {   Log.e("msg","break");
             gameEnded=true;
         }
         if(branch3.getY()==Y-Y/3&&bee.getPosition()==branch3.getPosition()%2){
@@ -104,18 +109,18 @@ public class TimberView extends SurfaceView implements  Runnable{
 
             canvas = ourHolder.lockCanvas();
 
-                canvas.drawColor(Color.argb(255, 255, 255, 255));
-                canvas.drawBitmap(bee.getBackground(), 0, 0, paint);
-                canvas.drawBitmap(cloud1.getCloud(), cloud1.getX(), cloud1.getY(), paint);
-                canvas.drawBitmap(cloud2.getCloud(), cloud2.getX(), cloud2.getY(), paint);
-                canvas.drawBitmap(cloud3.getCloud(), cloud3.getX(), cloud3.getY(), paint);
-                canvas.drawBitmap(bee.getTree(), X / 2, 0, paint);
-                canvas.drawBitmap(branch1.getBranch(), branch1.getX(), branch1.getY(), paint);
-                canvas.drawBitmap(branch2.getBranch(), branch2.getX(), branch2.getY(), paint);
-                canvas.drawBitmap(branch3.getBranch(), branch3.getX(), branch3.getY(), paint);
+            canvas.drawColor(Color.argb(255, 255, 255, 255));
+            canvas.drawBitmap(bee.getBackground(), 0, 0, paint);
+            canvas.drawBitmap(cloud1.getCloud(), cloud1.getX(), cloud1.getY(), paint);
+            canvas.drawBitmap(cloud2.getCloud(), cloud2.getX(), cloud2.getY(), paint);
+            canvas.drawBitmap(cloud3.getCloud(), cloud3.getX(), cloud3.getY(), paint);
+            canvas.drawBitmap(bee.getTree(), X / 2, 0, paint);
+            canvas.drawBitmap(branch1.getBranch(), branch1.getX(), branch1.getY(), paint);
+            canvas.drawBitmap(branch2.getBranch(), branch2.getX(), branch2.getY(), paint);
+            canvas.drawBitmap(branch3.getBranch(), branch3.getX(), branch3.getY(), paint);
             canvas.drawBitmap(branch4.getBranch(), branch4.getX(), branch4.getY(), paint);
-                canvas.drawBitmap(bee.getPlayer(), bee.getPlayerX(), Y - Y / 3, paint);
-                canvas.drawBitmap(bee.getBee(), bee.getX(), Y - Y / 3, paint);
+            canvas.drawBitmap(bee.getPlayer(), bee.getPlayerX(), Y - Y / 3, paint);
+            canvas.drawBitmap(bee.getBee(), bee.getX(), Y - Y / 3, paint);
 
 
             if(gameEnded)
@@ -125,7 +130,7 @@ public class TimberView extends SurfaceView implements  Runnable{
                 canvas.drawText("Tap to play!", X/2, 350, paint);
             }
             ourHolder.unlockCanvasAndPost(canvas);
-            
+
 
 
 
@@ -148,7 +153,7 @@ public class TimberView extends SurfaceView implements  Runnable{
         branch3=new branch(context,X,Y,Y3);
         branch4=new branch(context,X,Y,Y4);
         gameEnded=false;
-        startgame=false;
+
     }
 
     @Override
