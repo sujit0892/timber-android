@@ -10,31 +10,23 @@ import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements View.OnClickListener {
     TimberView timberView ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        timberView= new TimberView(this,size.x,size.y);
-        setContentView(timberView);
+
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
+        setContentView(R.layout.activity_main);
+        Button play=findViewById(R.id.play);
+        play.setOnClickListener(this);
     }
 
 
     @Override
-    public void onResume(){
-        super.onResume();
-        timberView.resume();
-
-    }
-
-    @Override
-    public void onPause(){
-        super.onPause();
-        timberView.pause();
+    public void onClick(View view) {
+        Intent i = new Intent(this,Main2Activity.class);
+        startActivity(i);
+        finish();
     }
 }
