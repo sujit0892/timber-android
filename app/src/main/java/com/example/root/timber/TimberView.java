@@ -112,12 +112,22 @@ public class TimberView extends SurfaceView implements  Runnable{
             canvas.drawBitmap(cloud2.getCloud(), cloud2.getX(), cloud2.getY(), paint);
             canvas.drawBitmap(cloud3.getCloud(), cloud3.getX(), cloud3.getY(), paint);
             canvas.drawBitmap(bee.getTree(), X / 2, 0, paint);
+
+            if(!(branch1.getY()>Y-Y/3))
             canvas.drawBitmap(branch1.getBranch(), branch1.getX(), branch1.getY(), paint);
+
+            if(!(branch2.getY()>Y-Y/3))
             canvas.drawBitmap(branch2.getBranch(), branch2.getX(), branch2.getY(), paint);
+
+            if(!(branch3.getY()>Y-Y/3))
             canvas.drawBitmap(branch3.getBranch(), branch3.getX(), branch3.getY(), paint);
+
+            if(!(branch4.getY()>Y-Y/3))
             canvas.drawBitmap(branch4.getBranch(), branch4.getX(), branch4.getY(), paint);
-            canvas.drawBitmap(bee.getPlayer(), bee.getPlayerX(), Y - Y / 3, paint);
             canvas.drawBitmap(logAxe.getLog(),logAxe.getX(),logAxe.getY(),paint);
+            canvas.drawBitmap(bee.getPlayer(), bee.getPlayerX(), Y - Y / 3, paint);
+
+            canvas.drawBitmap(logAxe.getAxe(),logAxe.getAxeX(),Y-Y/3+bee.getPlayer().getWidth()/2,paint);
             canvas.drawBitmap(bee.getBee(), bee.getX(), Y - Y / 3, paint);
 
 
@@ -180,7 +190,7 @@ public class TimberView extends SurfaceView implements  Runnable{
         branch3.update();
         branch4.update();
         sound.playChop();
-
+        logAxe.updateAxe();
         logAxe.update();
         return true;
     }
