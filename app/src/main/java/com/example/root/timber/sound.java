@@ -21,6 +21,7 @@ public class sound {
     SoundPool sp;
     int soundId[];
     MediaPlayer mp,mp1;
+    Thread thread;
     public sound(Context context){
        mp = MediaPlayer.create(context.getApplicationContext(), R.raw.chop);
         mp1 = MediaPlayer.create(context.getApplicationContext(), R.raw.death);

@@ -15,6 +15,7 @@ public class LogAxe {
     bee tree;
     int position;
     Thread thread;
+
     public LogAxe(Context context, int x, int y) {
         log = BitmapFactory.decodeResource(context.getResources(), R.drawable.log);
         log = Bitmap.createScaledBitmap(log, log.getWidth() / 4, log.getHeight() / 3, false);
@@ -28,6 +29,7 @@ public class LogAxe {
         maxX=x;
         position=0;
         thread= new Thread();
+
 
     }
 
@@ -106,4 +108,6 @@ public class LogAxe {
     public Bitmap getAxe(){
         return axe;
     }
+
+
 }

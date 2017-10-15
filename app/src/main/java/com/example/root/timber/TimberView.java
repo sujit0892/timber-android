@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -21,7 +22,7 @@ public class TimberView extends SurfaceView implements  Runnable{
     Bitmap tree,background;
     SurfaceHolder ourHolder;
     Context context;
-    private Paint paint;
+    private Paint paint, paint1;
     Thread thread =null;
     bee bee;
     branch branch1,branch2,branch3,branch4;
@@ -31,6 +32,9 @@ public class TimberView extends SurfaceView implements  Runnable{
     sound sound;
     boolean gameEnded=false;boolean startgame = false;
     LogAxe logAxe;
+    float right;
+    Handler handler;
+    Runnable handlertask;
     public TimberView(Context context, int x, int y) {
         super(context);
         this.context =context;
@@ -38,9 +42,11 @@ public class TimberView extends SurfaceView implements  Runnable{
         Y=y;
         paint = new Paint();
         paint.setColor(Color.argb(255,255,255,255));
+
         ourHolder = getHolder();
         startGame();
      sound = new sound(context);
+
 
     }
 
@@ -82,6 +88,7 @@ public class TimberView extends SurfaceView implements  Runnable{
         if(branch4.getY()==Y-Y/3&&bee.getPosition()==branch4.getPosition()%2){
             gameEnded = true;
         }
+        Log.e("msg", String.valueOf(right));
 
     }
 
@@ -129,6 +136,11 @@ public class TimberView extends SurfaceView implements  Runnable{
 
             canvas.drawBitmap(logAxe.getAxe(),logAxe.getAxeX(),Y-Y/3+bee.getPlayer().getWidth()/2,paint);
             canvas.drawBitmap(bee.getBee(), bee.getX(), Y - Y / 3, paint);
+            paint.setColor(Color.RED);
+            canvas.drawRect(X/3,0,right,Y/8,paint);
+
+            paint.setColor(Color.argb(255,255,255,255));
+
 
 
             if(gameEnded)
@@ -164,6 +176,24 @@ public class TimberView extends SurfaceView implements  Runnable{
         branch4=new branch(context,X,Y,Y4);
         logAxe =new LogAxe(context,X,Y);
         gameEnded=false;
+        right=3*X/4;
+        handler=new Handler();
+        handlertask = new Runnable() {
+            @Override
+            public void run() {
+                if(right>X/3&&!gameEnded){
+                    right-=50;
+                }
+                else {
+                    gameEnded=true;
+                    handler.removeCallbacks(handlertask);
+                }
+                handler.postDelayed(handlertask,1000);
+
+            }
+        };
+        handlertask.run();
+
 
     }
 
@@ -192,6 +222,7 @@ public class TimberView extends SurfaceView implements  Runnable{
         sound.playChop();
         logAxe.updateAxe();
         logAxe.update();
+        right+=10;
         return true;
     }
 }
