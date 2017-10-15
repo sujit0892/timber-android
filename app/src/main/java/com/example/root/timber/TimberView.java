@@ -30,6 +30,7 @@ public class TimberView extends SurfaceView implements  Runnable{
     int Y1,Y2,Y3,Y4;
     sound sound;
     boolean gameEnded=false;boolean startgame = false;
+    LogAxe logAxe;
     public TimberView(Context context, int x, int y) {
         super(context);
         this.context =context;
@@ -65,11 +66,7 @@ public class TimberView extends SurfaceView implements  Runnable{
         cloud2.update();
         cloud3.update();
         bee.update();
-        branch1.update();
-        branch2.update();
-        branch3.update();
-        branch4.update();
-        sound.playChop();
+
         if(branch1.getY()==Y-Y/3&&bee.getPosition()==branch1.getPosition()%2){
 
             gameEnded = true;
@@ -120,6 +117,7 @@ public class TimberView extends SurfaceView implements  Runnable{
             canvas.drawBitmap(branch3.getBranch(), branch3.getX(), branch3.getY(), paint);
             canvas.drawBitmap(branch4.getBranch(), branch4.getX(), branch4.getY(), paint);
             canvas.drawBitmap(bee.getPlayer(), bee.getPlayerX(), Y - Y / 3, paint);
+            canvas.drawBitmap(logAxe.getLog(),logAxe.getX(),logAxe.getY(),paint);
             canvas.drawBitmap(bee.getBee(), bee.getX(), Y - Y / 3, paint);
 
 
@@ -128,6 +126,7 @@ public class TimberView extends SurfaceView implements  Runnable{
                 paint.setTextAlign(Paint.Align.CENTER);
                 canvas.drawText("Start", X/2, 100, paint);
                 canvas.drawText("Tap to play!", X/2, 350, paint);
+                canvas.drawBitmap(bee.getRip(), bee.getPlayerX(), Y - Y / 3, paint);
                 sound.playDead();
             }
             ourHolder.unlockCanvasAndPost(canvas);
@@ -153,6 +152,7 @@ public class TimberView extends SurfaceView implements  Runnable{
         branch2=new branch(context,X,Y,Y2);
         branch3=new branch(context,X,Y,Y3);
         branch4=new branch(context,X,Y,Y4);
+        logAxe =new LogAxe(context,X,Y);
         gameEnded=false;
 
     }
@@ -164,15 +164,24 @@ public class TimberView extends SurfaceView implements  Runnable{
         {
             bee.setPlayerX(X/2-bee.getPlayer().getWidth());
             bee.setPosition(0);
+            logAxe.setPosition(0);
         }
         else
         {
             bee.setPlayerX(X/2+bee.getTree().getWidth());
             bee.setPosition(1);
+            logAxe.setPosition(1);
         }
         if(gameEnded){
             startGame();
         }
+        branch1.update();
+        branch2.update();
+        branch3.update();
+        branch4.update();
+        sound.playChop();
+
+        logAxe.update();
         return true;
     }
 }

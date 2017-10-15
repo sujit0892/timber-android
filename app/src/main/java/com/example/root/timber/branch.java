@@ -24,7 +24,7 @@ public class branch {
     Matrix matrix;
     Random generator;
 
-    int speed = 6;
+    int speed = 40;
     Context context;
     public branch(Context context,int x,int y,int Y) {
         branch_left = BitmapFactory.decodeResource(context.getResources(), R.drawable.branch1);

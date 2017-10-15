@@ -17,7 +17,7 @@ public class bee {
     int PlayerX;
     int position;
 
-    private Bitmap background,bee,tree,player;
+    private Bitmap background,bee,tree,player,Rip;
     public bee(Context context, int x, int y){
         background= BitmapFactory.decodeResource(context.getResources(),R.drawable.background);
         background=Bitmap.createScaledBitmap(background,x,y,false);
@@ -27,6 +27,8 @@ public class bee {
         tree=Bitmap.createScaledBitmap(tree,tree.getWidth()/4,tree.getHeight()/3,false);
         player = BitmapFactory.decodeResource(context.getResources(),R.drawable.player);
         player=Bitmap.createScaledBitmap(player,player.getWidth()/4,player.getHeight()/3,false);
+        Rip = BitmapFactory.decodeResource(context.getResources(),R.drawable.rip);
+        Rip=Bitmap.createScaledBitmap(Rip,Rip.getWidth()/3,Rip.getHeight()/2,false);
         random = new Random();
         this.x=random.nextInt(x);
         speed=random.nextInt(3)+1;
@@ -74,5 +76,9 @@ public class bee {
     public void setPosition(int pos){
         position=pos;
 
+    }
+
+    public Bitmap getRip(){
+        return Rip;
     }
 }
