@@ -20,10 +20,10 @@ import android.view.SurfaceView;
 public class TimberView extends SurfaceView implements  Runnable{
     boolean playing = true;
     private Canvas canvas;
-    Bitmap tree,background;
+
     SurfaceHolder ourHolder;
     Context context;
-    private Paint paint, paint1;
+    private Paint paint;
     Thread thread =null;
     bee bee;
     branch branch1,branch2,branch3,branch4;
@@ -31,12 +31,13 @@ public class TimberView extends SurfaceView implements  Runnable{
     Cloud cloud1,cloud2,cloud3;
     int Y1,Y2,Y3,Y4;
     sound sound;
-    boolean gameEnded;
+    boolean gameEnded,startthread,scorebool;
     LogAxe logAxe;
     float right;
     Handler handler;
     Runnable handlertask;
     int score,hiscore;
+
 
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
@@ -56,6 +57,9 @@ public class TimberView extends SurfaceView implements  Runnable{
         ourHolder = getHolder();
         startGame();
      sound = new sound(context);
+        startthread=false;
+
+        handler=new Handler();
 
 
     }
@@ -185,7 +189,15 @@ public class TimberView extends SurfaceView implements  Runnable{
                 sound.playDead();
             }
 
+
             ourHolder.unlockCanvasAndPost(canvas);
+            startthread=true;
+
+            if(scorebool)
+            {
+                score();
+                scorebool = false;
+            }
 
 
 
@@ -210,17 +222,72 @@ public class TimberView extends SurfaceView implements  Runnable{
         branch4=new branch(context,X,Y,Y4);
         logAxe =new LogAxe(context,X,Y);
         gameEnded=false;
+        scorebool =true ;
+
+
+
+
+
+
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        int x = (int) motionEvent.getX();
+        if (!gameEnded && startthread)
+        {
+            if (x < X / 2) {
+                bee.setPlayerX(X / 2 - bee.getPlayer().getWidth());
+                bee.setPosition(0);
+                logAxe.setPosition(0);
+                branch1.update();
+                branch2.update();
+                branch3.update();
+                branch4.update();
+                sound.playChop();
+                logAxe.updateAxe();
+                logAxe.update();
+                if (right <= 3 * x / 4)
+                    right += 10;
+            } else {
+                bee.setPlayerX(X / 2 + bee.getTree().getWidth());
+                bee.setPosition(1);
+                logAxe.setPosition(1);
+                branch1.update();
+                branch2.update();
+                branch3.update();
+                branch4.update();
+                sound.playChop();
+                logAxe.updateAxe();
+                logAxe.update();
+                if (right <= 3 * x / 4)
+                    right += 10;
+            }
+    }
+
+
+        if(gameEnded){
+
+            startGame();
+            logAxe.thread.interrupt();
+            startthread=false;
+
+        }
+
+        return true;
+    }
+
+
+    public void score(){
         score = 0;
 
 
         right=3*X/4;
-
-        handler=new Handler();
         handlertask = new Runnable() {
             @Override
             public void run() {
                 if(right>X/3&&!gameEnded){
-                    right-=50;
+                    right-=15;
                     score++;
                 }
                 else {
@@ -234,38 +301,5 @@ public class TimberView extends SurfaceView implements  Runnable{
         handlertask.run();
 
 
-
-
-
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        int x = (int) motionEvent.getX();
-           if(!gameEnded)
-            if (x < X / 2) {
-                bee.setPlayerX(X / 2 - bee.getPlayer().getWidth());
-                bee.setPosition(0);
-                logAxe.setPosition(0);
-            } else {
-                bee.setPlayerX(X / 2 + bee.getTree().getWidth());
-                bee.setPosition(1);
-                logAxe.setPosition(1);
-            }
-
-
-        if(gameEnded){
-            startGame();
-        }
-        branch1.update();
-        branch2.update();
-        branch3.update();
-        branch4.update();
-        sound.playChop();
-        logAxe.updateAxe();
-        logAxe.update();
-        if(right<=3*x/4)
-        right+=10;
-        return true;
     }
 }

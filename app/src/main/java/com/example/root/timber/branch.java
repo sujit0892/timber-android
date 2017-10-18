@@ -21,7 +21,7 @@ public class branch {
     int X_RIGHT;
     int position;
     int X,Y,maxY;
-    Matrix matrix;
+
     Random generator;
 
     int speed = 40;

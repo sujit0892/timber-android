@@ -14,7 +14,7 @@ public class Cloud {
 
     Bitmap cloud;
     Random random;
-    int x,minX,maxX,speed,minY,maxY,y;
+    int x,maxX,speed,minY,maxY,y;
     public Cloud(Context context,int x,int y){
         cloud= BitmapFactory.decodeResource(context.getResources(),R.drawable.cloud);
         cloud = Bitmap.createScaledBitmap(cloud,cloud.getWidth()/4,cloud.getHeight()/4,false);

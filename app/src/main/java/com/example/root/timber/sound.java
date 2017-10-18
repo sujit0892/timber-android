@@ -17,14 +17,12 @@ import java.io.IOException;
 
 public class sound {
 
-    AudioAttributes attrs;
-    SoundPool sp;
-    int soundId[];
+
     MediaPlayer mp,mp1;
-    Thread thread;
+
     public sound(Context context){
        mp = MediaPlayer.create(context.getApplicationContext(), R.raw.chop);
-        mp1 = MediaPlayer.create(context.getApplicationContext(), R.raw.death);
+        mp1 = MediaPlayer.create(context.getApplicationContext(), R.raw.out_of_time);
 
 
 
